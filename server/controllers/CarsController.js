@@ -1,6 +1,7 @@
 import express from "express";
 import BaseController from "../utils/BaseController";
 import { carsService } from "../services/CarsService";
+import { dbContext } from "../db/DbContext";
 
 export class CarsController extends BaseController {
   constructor() {
@@ -22,7 +23,17 @@ export class CarsController extends BaseController {
       next(error);
     }
   }
-  getOne() {}
+  async getOne(req, res, next) {
+    try {
+      let foundCar = await carsService.getOne(req.params.carId);
+      if (!foundCar) {
+        return res.status(400).send("Invalid ID");
+      }
+      res.send(foundCar);
+    } catch (error) {
+      next(error);
+    }
+  }
   async create(req, res, next) {
     try {
       let car = await carsService.create(req.body);
@@ -33,8 +44,8 @@ export class CarsController extends BaseController {
   }
   async delete(req, res, next) {
     try {
-      let car = await carsService.delete(req.body);
-      res.send({ data: car, message: "car deleted!" });
+      await carsService.delete(req.params.carId);
+      res.send("Deleted");
     } catch (err) {
       next(err);
     }
