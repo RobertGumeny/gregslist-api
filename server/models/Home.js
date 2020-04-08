@@ -1,16 +1,17 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-const Car = new Schema(
+const Home = new Schema(
   {
-    make: { type: String, required: true },
-    model: { type: String, required: true },
+    bedrooms: { type: Number, required: true },
+    bathrooms: { type: Number, required: true },
+    levels: { type: Number, required: true },
     year: { type: Number, required: true },
     price: { type: Number, required: true },
-    description: { type: String, default: "A car" },
+    description: { type: String, default: "A Home" },
     imgUrl: { type: String, default: "No image provided" },
   },
   { timestamps: true, toJSON: { virtuals: true } }
 );
 
-export default Car;
+export default Home;
